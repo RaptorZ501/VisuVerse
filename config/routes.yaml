@@ -3,3 +3,8 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+    
+img_edit:
+    path: /img/edit.png
+    controller: App\Controller\IndexController::imgEdit
+

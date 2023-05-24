@@ -1,0 +1,70 @@
+
+
+
+
+<div class="grpTab center column-flex">
+<!-- onglet -->
+	<div class="tab">
+	<!-- navigateur onglet-->
+		<nav class="tabNav row-flex">
+			<ul class="nav nav-tabs navTab ">
+				<li class="tabActive">
+					<h5>Titre</h5>
+				</li>
+			<!--model d'onglet futur-->
+				<li class="liTab">
+					<h5>Teste</h5>
+				</li>
+			</ul>
+			<button class="btn btn-success ajout" href="">+</button>
+		</nav>
+	<!-- element interieur de l'onglet-->
+		<div class="contentTab">
+			<form
+				class="formContent center" method="post">
+			<!-- texte de l'onglet-->
+				<div class="center column-flex tabContent">
+				<!-- Input et textArea de l'onglet-->
+					<div class="row-flex input">
+						<input class="titleTab" type="text" placeholder="Titre du projet" aria-label="Choissisez un titre">
+						<button class="btnTab">Valider</button>
+					</div>
+
+					<div class="row-flex input" >
+						<textarea class="DescriptionTab" type="textarea" placeholder="Description du projet" aria-label="Entrer une description"></textarea>
+						<button class="btnTab btnTextarea">Valider</button>
+					</div>
+
+				<!-- Texte du projet une fois valider-->
+					<div class="row-flex val" hidden>
+						<h3 class="valider raduisTop">Titre du projet</h3>
+						<a class="modiferButton" id="Modif"><img src="/img/edit.png" class="imgModifer"></a>
+					</div>
+
+					<div class="row-flex val" hidden>
+						<p class="valider raduisBottom">Sed ut perspiciatis unde omnis iste natus error sit 
+							                                voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque 
+							                                ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
+						</p>
+						<a class="modiferButton" id="Modif"><img src="/img/edit.png" class="imgModifer"></a>
+					</div>
+
+
+				</div>
+
+			<!-- liens de la page du projet -->
+				<a href="" class="btn btn-primary LienTab">page du projet teste</a>
+
+			<!-- Image du projet -->
+				<div class="imgTab">
+					<div class="center">
+						<div class="backImg">
+							<input class="" type="file" id="file-input" aria-label="Choisissez une image">
+							<label class="btn btn-success" for="file-input">Choisissez une image</label>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Membre{% endblock %}
+
+{% block body %}
+    
+    <header class="header-user center">
+        <h1 class="center">
+            Portefolio
+            <a class="modiferButton" id="Modif">
+                <img src="/img/edit.png" class="imgModifer">
+            </a>
+        </h1>
+    </header>
+    <p>{{ id }}</p>
+    <nav class="navMembre center">
+        <span class="" ><a href="{{ path('app_logout')}}" class="btn btn-success deco">Deconnexion</a></span>
+        <span class="navActive"><a href="" class="">Membre</a></span>
+        <span class="navTab"><a href="{{path('app_user_show', {'id': id }) }}" class="">Profil</a></span>
+        <span class="navTab"><a href="{{ path('app_index') }}" class="">Accueil</a></span>
+    </nav>
+    <div class="center" style="width: 100%; height:100%">
+        <div class="containerTable">
+            <h2>Liste des Membres</h2>
+            <table class="table table-primary table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Pseudo</th>
+                        <th scope="col">Roles</th>
+                        <th scope="col">Mot de passe</th>
+                        <th scope="col">E-mail</th>
+                        <th scope="col">Code postal</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prenom</th>
+                        <th scope="col">Date de création</th>
+                        <th scope="col">actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.pseudo }}</td>
+                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                        <td>{{ user.password }}</td>
+                        <td>{{ user.mail }}</td>
+                        <td>{{ user.codePostal }}</td>
+                        <td>{{ user.lastName }}</td>
+                        <td>{{ user.firstName }}</td>
+                        <td>{{ user.CreatedAt.format('d - m - Y') }}</td>
+                        <td>
+                            <a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-primary">Regarder</a>
+                            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning">Modifier</a>
+                            <a href="#" class="btn btn-info">Changer le role</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="9">no records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>        
+
+{% endblock %}

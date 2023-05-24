@@ -1,0 +1,34 @@
+
+		
+				
+				<div class="noConnected" id="noConnected">
+					<nav class="betweenTop column" id="noConnected">
+						<a href="{{ path('app_register') }}" class="navNoConnected">
+							Inscription
+						</a>
+						<!-- fonctionnalité a ajouter
+						<a class="navNoConnected">
+							Tester
+						</a>
+						-->
+						<a class="navNoConnected" id="connexionBtn">
+							Connexion
+						</a>	
+					</nav>
+					<!-- desciption du site -->
+					<section class="descriptionSite center" >
+						<p><strong>
+							Découvrez notre plateforme en ligne pour créer facilement des portfolios 
+							pour tous vos projets. Que vous soyez un artiste, un designer, un photographe 
+							ou que vous souhaitiez simplement mettre en valeur vos réalisations, 
+							notre site vous permet de présenter votre travail de manière professionnelle. 
+							Personnalisez votre portefeuille en quelques clics et partagez vos projets 
+							avec le monde entier. Simplifiez la création de votre portfolio dès maintenant !
+						</strong></p>
+					</section>
+				</div>
+
+				<div id="connexionFormContainer" class="center">				
+					{{ include('security/login.html.twig') }}
+				</div>
+

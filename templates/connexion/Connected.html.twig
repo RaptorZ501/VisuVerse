@@ -1,0 +1,24 @@
+				
+				<!-- inscription et connexion-->
+				<nav class="navHeader center row-flex" id="navHeader">
+					<a href="{{ path('app_user_show', {'id': sessionId }) }}" class="navConnected">
+						Profil 
+					</a>
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('app_user_index') }}" class="navConnected">
+							membre
+						</a>					
+					{% endif %}
+					<a href="{{ path('app_logout') }}" class="btn btn-success">Deconnexion</a>
+				</nav>
+				<div class="column-flex center tabPos">
+					{% if ajout %}
+						<!-- ajout d'autre onglet dans le fichier tab et les caché dynamiquement -->
+						{% include "./reusable/tab.html.twig" %}
+					{% endif %}
+
+					<!-- ajout d'onglet zone vide a reutiliser-->
+					<div class="tabAjout center">
+						<button class="btn btn-success newTab" id="btnAjout">+</button>
+					</div>
+				</div>

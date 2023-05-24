@@ -1,20 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Portefolio{% endblock %}
+		{% block title %}
+			Portefolio
+		{% endblock title %}
 
-{% block body %}
-    <header>
-        <h1 class="center">Portefolio</h1>
-        <nav class="navHeader">
-    
-        </nav>
-    </header>
+		{% block body %}
 
-    <main>
-        <div class="tab">
-            <ul>
-                <li><h5>Title</h5></li>
-            </ul>
-        </div>
-    </main>
-{% endblock %}
+			{% include './reusable/header.html.twig' %}
+
+			<main class="center main">
+
+				{% if is_granted('ROLE_USER') %}
+					{{ include('./connexion/Connected.html.twig')}}
+				{% else %}
+					{% include "./connexion/noConnect.html.twig" %}
+				{% endif %}
+			</main>
+
+		{% endblock %}

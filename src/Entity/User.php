@@ -6,10 +6,19 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+use DateTimeInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
+ */
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -22,6 +31,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private array $roles = [];
+    //private array $roles = 'USER';
 
     /**
      * @var string The hashed password
@@ -41,12 +51,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 100)]
     private ?string $firstName = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: onglet::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Onglet::class)]
     private Collection $ongletId;
+
+    /**
+    * @ORM\Column(name="created_at", type="datetime_immutable", options={"default": "CURRENT_TIMESTAMP"})
+    */
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $CreatedAt = null;
 
     public function __construct()
     {
         $this->ongletId = new ArrayCollection();
+    }
+
+    /**
+    * @ORM\PrePersist
+    */
+    public function prePersist(): void
+    {
+        $this->CreatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -108,15 +133,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
 
         return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
     }
 
     public function getMail(): ?string
@@ -193,6 +209,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $ongletId->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->CreatedAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $CreatedAt): self
+    {
+        $this->CreatedAt = $CreatedAt;
 
         return $this;
     }
