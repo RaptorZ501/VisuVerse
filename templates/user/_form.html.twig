@@ -1,16 +1,9 @@
-{{ form_start(form, {'attr': {'class': ''}})}}
+{{ form_start(form, {'attr': {'class': 'formEdit'}})}}
         <!-- pseudo -->
         <div class="form-group mb-3">
             {{ form_label(form.pseudo, 'Pseudo', {'attr': {'for': 'pseudo', 'class': 'form-label'}}) }}
             {{ form_widget(form.pseudo, {'attr': {'id': 'pseudo', 'class': 'form-control'}}) }}
             {{ form_errors(form.pseudo) }}
-        </div>
-
-        <!-- password -->
-        <div class="form-group mb-3">
-            {{ form_label(form.password, 'Mot de passe', {'attr': {'for': 'pseudo', 'class': 'form-label'}}) }}
-            {{ form_widget(form.password, {'attr': {'id': 'pseudo', 'class': 'form-control'}}) }}
-            {{ form_errors(form.password) }}
         </div>
 
         <!-- mail -->
@@ -41,9 +34,8 @@
             {{ form_errors(form.firstName) }}
         </div>
 
-        <!-- role a mettre automatiquement sur user -->
-
-        <!-- Validation -->
-        <button class="btn btn-success" type="submit">{{ button_label|default('Valider') }}</button>
+            <a href="" class="editPass" hidden>Changer de mot de passe</a>
+            <!-- Validation -->
+            <button class="btn btn-warning editMod" type="submit">{{ button_label|default('Valider') }}</button>
 
 {{ form_end(form) }}

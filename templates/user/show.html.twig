@@ -3,48 +3,46 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    {% include 'reusable/header.html.twig'%}
+    <div class="center blockProfil">
+        <div class="cardUser">
+            <div class="card-body cardProfil">
+                <h5 class="card-title card-Titre">Profil utilisateur</h5>
+                <div class="center flex-column cardElement">
+                    <h6 class="cardTitle">Pseudo</h6>
+                    <p class="cardText">{{ user.pseudo }}</p>
+                </div>
+                <div class="center flex-column">
+                    <p class="cardTitle">E-mail</p>
+                    <p class="cardText">{{ user.mail }}</p>
+                </div>                
+                <div class="center flex-column">
+                    <h6 class="cardTitle">Code postale</h6>
+                    <p class="cardText">{{ user.codePostal }}</p>
+                </div>
+                <div class="center flex-column">
+                    <h6 class="cardTitle">Nom</h6>
+                    <p class="cardText">{{ user.lastName }}</p>
+                </div>
+                <div class="center flex-column">
+                    <h6 class="cardTitle">Prenom</h6>
+                    <p class="cardText">{{ user.firstName }}</p>
+                </div>
+                <div class="center flex-column">
+                    <h6 class="cardTitle">Role utilisateur</h6>
+                    <p class="cardText">{{role}}</p>                    
+                </div>
+            </div>           
+            <div class="card-body column-flex">
+                <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-warning" style="margin-bottom: 1%">Modifier</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_user_index') }}" class="btn btn-primary">retour a la liste des membre</a>
+                {% else %}
+                    <a href="{{ path('app_index') }}" class="btn btn-primary">retour a la page d'acceuil</a>
+                {% endif %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Pseudo</th>
-                <td>{{ user.pseudo }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>Mail</th>
-                <td>{{ user.mail }}</td>
-            </tr>
-            <tr>
-                <th>Code_postal</th>
-                <td>{{ user.codePostal }}</td>
-            </tr>
-            <tr>
-                <th>LastName</th>
-                <td>{{ user.lastName }}</td>
-            </tr>
-            <tr>
-                <th>FirstName</th>
-                <td>{{ user.firstName }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_user_index') }}">back to list</a>
-
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+                {{ include('user/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -11,9 +11,10 @@ use DateTimeInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[UniqueEntity(fields: ['pseudo'], message: 'There is already an account with this pseudo')]
+#[UniqueEntity(fields: ['pseudo'], message: 'Un compte existe déjà avec ce pseudo')]
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -29,15 +30,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $pseudo = null;
 
+    /**
+     * @ORM\Column(type="text")
+     */
     #[ORM\Column]
     private array $roles = [];
-    //private array $roles = 'USER';
 
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $mail = null;
@@ -54,10 +58,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Onglet::class)]
     private Collection $ongletId;
 
-    /**
-    * @ORM\Column(name="created_at", type="datetime_immutable", options={"default": "CURRENT_TIMESTAMP"})
-    */
-
     #[ORM\Column]
     private ?\DateTimeImmutable $CreatedAt = null;
 
@@ -72,6 +72,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function prePersist(): void
     {
         $this->CreatedAt = new \DateTimeImmutable();
+    }
+
+    #[Assert\IsTrue(message: 'The password cannot match your first name')]
+    public function isPasswordSafe()
+    {
+        // ... return true or falsez
+         return $this->firstName !== $this->password;
     }
 
     public function getId(): ?int
@@ -108,7 +115,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_MEMBRE';
 
         return array_unique($roles);
     }
@@ -235,4 +242,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
 }

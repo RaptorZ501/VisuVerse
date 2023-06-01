@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+	{% block body %}
+		{% include "reusable/header.html.twig" %}
+		<main class="main">
+			
+			<div class="row-flex center">
+        	{{ form_start(form) }}
+        	<!-- navigateur onglet-->
+
+				{{form_label(form.Title_onglet, 'Titre du projet') }}
+        	    {{ form_widget(form.Title_onglet, {'attr': {'placeholder': 'Entrer le titre du projet'}})}}
+
+        	<!--   formulaire   -->
+
+				{{form_label(form.title, 'Titre de la description') }}
+        	    {{ form_widget(form.title, {'attr': {'placeholder': 'Entrer le titre de la description'}})}}
+
+				{{form_label(form.description, 'Description du projet') }}
+        	    {{ form_widget(form.description, {'attr': {'placeholder': 'Entrer une description', 'class': 'DescriptionInput'}})}}
+
+        	<!--  Image du formulaire  -->
+				{{form_label(form.img, 'Choisissez une image', {'attr': {'class': 'btn btn-success'}}) }}
+        	    {{ form_widget(form.img, {'attr': {'aria-label': 'Choisissez une image'}})}}
+
+			{{ form_widget(form.Liens)}}	
+
+
+        	    <button class="btn btn-success m-5">{{ button_label|default('Valider') }}</button>
+        	{{ form_end(form) }}
+			</div>
+		</main>
+	{% endblock body %}
+

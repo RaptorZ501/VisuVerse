@@ -5,6 +5,9 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Controller\RoleController;
 use App\Controller\SessionController;
+use App\Entity\Onglet;
+use App\Form\OngletType;
+use App\Repository\OngletRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,12 +16,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 
 $session = new Session();
-$session->start();
+//$session->start();
 
 class IndexController extends AbstractController
 {
@@ -36,11 +39,14 @@ class IndexController extends AbstractController
                         AuthorizationCheckerInterface $authorizationChecker,  
                         AuthenticationUtils $authenticationUtils,
                         Security $security,
-                        request $request, SessionController $sessionController): Response
+                        request $request, SessionController $sessionController, 
+                        OngletRepository $ongletRepository): Response
     {
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
+
+
 
         //session_start()
         //$session = $request->getSession();
@@ -53,8 +59,26 @@ class IndexController extends AbstractController
 
             // Utilisez l'objet User selon vos besoins
             $id = $user->getId();
+            
+
+            $onglet = new Onglet();
+            $form = $this->createForm(OngletType::class, $onglet);
+            $form->handleRequest($request);
+            
+            if ($form->isSubmitted() && $form->isValid()) { 
+
+                $onglet->setUser($user);
+
+                $ongletRepository->save($onglet, true);
+                return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
+            }
+
             //$session->set('id', $user->getId());
             $sessionId = $sessionController->getSessionid();
+
+
+
+ 
 
 
 
@@ -62,8 +86,9 @@ class IndexController extends AbstractController
                 'last_username' => $lastUsername, 
                 'error' => $error,
                 'ajout' => true,
-                //'id' => $id,
-                'sessionId' => $sessionId 
+                'sessionId' => $sessionId,
+                'form' => $form->createView(),
+                'onglets' => $ongletRepository->findAll(),
             ]);
         }
 

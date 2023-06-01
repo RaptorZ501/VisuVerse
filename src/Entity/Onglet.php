@@ -5,8 +5,12 @@ namespace App\Entity;
 use App\Repository\OngletRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 #[ORM\Entity(repositoryClass: OngletRepository::class)]
+#[Vich\Uploadable]
 class Onglet
 {
     #[ORM\Id]
@@ -17,8 +21,14 @@ class Onglet
     #[ORM\Column(length: 100)]
     private ?string $Title_onglet = null;
 
-    #[ORM\Column(type: Types::BLOB, nullable: true)]
-    private $img = null;
+    #[ORM\Column(nullable:true)]  
+    private ?string $imgName = null;
+
+    #[Vich\UploadableField(mapping:"images_project", fileNameProperty:"imgName")]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 100)]
     private ?string $title = null;
@@ -26,11 +36,9 @@ class Onglet
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $Liens = null;
-
     #[ORM\ManyToOne(inversedBy: 'ongletId')]
     private ?User $user = null;
+
 
     public function getId(): ?int
     {
@@ -45,18 +53,6 @@ class Onglet
     public function setTitleOnglet(string $Title_onglet): self
     {
         $this->Title_onglet = $Title_onglet;
-
-        return $this;
-    }
-
-    public function getImg()
-    {
-        return $this->img;
-    }
-
-    public function setImg($img): self
-    {
-        $this->img = $img;
 
         return $this;
     }
@@ -85,18 +81,6 @@ class Onglet
         return $this;
     }
 
-    public function getLiens(): ?string
-    {
-        return $this->Liens;
-    }
-
-    public function setLiens(string $Liens): self
-    {
-        $this->Liens = $Liens;
-
-        return $this;
-    }
-
     public function getUser(): ?User
     {
         return $this->user;
@@ -108,4 +92,40 @@ class Onglet
 
         return $this;
     }
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImgName(?string $imgName): void
+    {
+        $this->imgName = $imgName;
+    }
+
+    public function getImgName(): ?string
+    {
+        return $this->imgName;
+    }
+
 }

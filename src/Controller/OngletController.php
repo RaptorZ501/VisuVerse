@@ -9,8 +9,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
-#[Route('/onglet')]
+#[Route('/')]
 class OngletController extends AbstractController
 {
     #[Route('/', name: 'app_onglet_index', methods: ['GET'])]
@@ -34,7 +35,7 @@ class OngletController extends AbstractController
             return $this->redirectToRoute('app_onglet_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('onglet/new.html.twig', [
+        return $this->renderForm('onglet/tabAjout.html.twig', [
             'onglet' => $onglet,
             'form' => $form,
         ]);

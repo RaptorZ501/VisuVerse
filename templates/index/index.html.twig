@@ -8,9 +8,8 @@
 
 			{% include './reusable/header.html.twig' %}
 
-			<main class="center main">
-
-				{% if is_granted('ROLE_USER') %}
+			<main class="center main bgMain">
+				{% if is_granted('ROLE_MEMBRE') %}
 					{{ include('./connexion/Connected.html.twig')}}
 				{% else %}
 					{% include "./connexion/noConnect.html.twig" %}
