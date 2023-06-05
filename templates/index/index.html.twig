@@ -10,7 +10,7 @@
 
 			<main class="center main bgMain">
 				{% if is_granted('ROLE_MEMBRE') %}
-					{{ include('./connexion/Connected.html.twig')}}
+					{{ include('./connexion/Connected.html.twig') }}
 				{% else %}
 					{% include "./connexion/noConnect.html.twig" %}
 				{% endif %}

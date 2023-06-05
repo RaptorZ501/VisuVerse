@@ -1,19 +1,38 @@
+	<div class="row-flex">
+		{% for onglet in onglets %}
+		{% if loop.index is divisible by(5) %}
+			<div class="row"> <!-- Nouvelle ligne -->
+		{% endif %}
+		<div class="column-flex center" id="parentCard">
+			<div class="cardBorder m-3 bg-dark text-white cardC" style="">
+				<div class="boxImage">
+					<img class="card-img-top img-fluid imgCard" style="" 
+							src="{{ vich_uploader_asset(onglet, 'imageFile') }}" 
+							alt="Card image cap">
+				</div>
+				<div class="card-body column-flex" style="height:100%">
+					<h5 class="card-title titleCard">{{ onglet.title}}</h5>
+					<!-- Modal pour la description -->
+					<!-- button modal -->
+					<button id="modal{{ onglet.id }}" data-bs-id="{{ onglet.id }}" class="buttonDesc btn btn-secondary">
+						Afficher la description
+	*				</button> 
+					<!--<a href="#" class="btn btn-primary">Allez au projet</a>-->
+					<!--  end -->
+					<div class="modalDesc close{{ onglet.id }}" id="modalDesc{{ onglet.id }}">
+						<div style="display: flex;justify-content: flex-end;">
+							<button class="closeModal" id="closeModal" data-bs-onglet-id="{{ onglet.id }}">X</button>
+						</div>
+						
+						<p class="card-text desCard">{{ onglet.description}}</p>
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+		{% include "reusable/tabAjout.html.twig" %}	
+	</div>
 
-							
-
-								<div class="center row-flex" style="height: 100%;width: 100%" id="">
-								<!-- content -->
-
-									<div class="center" style="height: 70%;width: 100%">
-										<p class="descriptionCheck">Sed ut perspiciatis unde omnis iste natus error sit 
-																			voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque 
-																			ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-										</p>
-									</div>
-							<!--	 Image du projet -->
-									<div class="imgTabPrev" style="height: 100%;width: 50%">
-
-									</div>
-								</div>
-
-							<!-- Image -->
+	

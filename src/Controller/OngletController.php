@@ -32,10 +32,10 @@ class OngletController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $ongletRepository->save($onglet, true);
 
-            return $this->redirectToRoute('app_onglet_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('onglet/tabAjout.html.twig', [
+        return $this->renderForm('reusable/tabForm.html.twig', [// onglet/tabAjout.html.twig
             'onglet' => $onglet,
             'form' => $form,
         ]);

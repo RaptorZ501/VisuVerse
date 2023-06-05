@@ -56,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $firstName = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Onglet::class)]
-    private Collection $ongletId;
+    private Collection $ongletId; 
 
     #[ORM\Column]
     private ?\DateTimeImmutable $CreatedAt = null;

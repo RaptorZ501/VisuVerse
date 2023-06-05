@@ -18,9 +18,6 @@ class Onglet
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $Title_onglet = null;
-
     #[ORM\Column(nullable:true)]  
     private ?string $imgName = null;
 
@@ -43,18 +40,6 @@ class Onglet
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitleOnglet(): ?string
-    {
-        return $this->Title_onglet;
-    }
-
-    public function setTitleOnglet(string $Title_onglet): self
-    {
-        $this->Title_onglet = $Title_onglet;
-
-        return $this;
     }
 
     public function getTitle(): ?string
