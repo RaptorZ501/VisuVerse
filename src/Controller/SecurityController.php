@@ -29,7 +29,6 @@ class SecurityController extends AbstractController
 
         }
 
-
     #[Route(path: '/peon/logout', name: 'app_logout')]
     public function logout(): void
     {

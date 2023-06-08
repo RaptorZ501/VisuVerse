@@ -1,17 +1,20 @@
-				
-				<!-- Nav connecter -->
-				<nav class="navHeader center row-flex" id="navHeader">
-					<a href="{{ path('app_user_show', {'id': sessionId }) }}" class="navConnected">
-						Profil 
-					</a>
-					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('app_user_index') }}" class="navConnected">
-							membre
-						</a>					
-					{% endif %}
-					<a href="{{ path('app_logout') }}" class="btn btn-success m-1">Deconnexion</a>
-				</nav>
-				<div class="center mainTab">
-					<!-- ajout d'autre onglet dans le fichier tab et les caché dynamiquement -->
-					{% include "./reusable/tab.html.twig" %}
+				<div class="column-flex center" style="">
+					<div class="blockNavHeader" style="">
+						<!-- Nav connecter -->
+						<nav class="navHeader center row-flex" id="navHeader">
+							<a href="{{ path('app_user_show', {'id': sessionId }) }}" class="navConnected">
+								Profil 
+							</a>
+							{% if is_granted('ROLE_ADMIN') %}
+								<a href="{{ path('app_user_index') }}" class="navConnected">
+									membre
+								</a>					
+							{% endif %}
+							<a href="{{ path('app_logout') }}" class="btn btn-success m-1">Deconnexion</a>
+						</nav>
+					</div>
+					<div class="center">
+						<!-- ajout d'autre onglet dans le fichier tab et les caché dynamiquement -->
+						{% include "./onglet/tab.html.twig" %}
+					</div>
 				</div>

@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
-#[ORM\Entity(repositoryClass: OngletRepository::class)]
+#[ORM\Entity]
 #[Vich\Uploadable]
 class Onglet
 {

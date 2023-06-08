@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Onglet;
 use App\Form\OngletType;
 use App\Repository\OngletRepository;
@@ -22,22 +23,26 @@ class OngletController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_onglet_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, OngletRepository $ongletRepository): Response
+    #[Route('/{id}/new', name: 'app_onglet_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, OngletRepository $ongletRepository, User $user): Response
     {
+
+        $label = 'Choisissez une image';
         $onglet = new Onglet();
         $form = $this->createForm(OngletType::class, $onglet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $onglet->setUser($user);
             $ongletRepository->save($onglet, true);
 
             return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('reusable/tabForm.html.twig', [// onglet/tabAjout.html.twig
+        return $this->renderForm('onglet/tabForm.html.twig', [// onglet/tabAjout.html.twig
             'onglet' => $onglet,
             'form' => $form,
+            'label' => $label,
         ]);
     }
 

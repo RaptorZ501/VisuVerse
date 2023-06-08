@@ -28,6 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 
 
+
 $session = new Session();
 //$session->start();
 
@@ -46,9 +47,6 @@ class IndexController extends AbstractController
     use ServiceSubscriberTrait;
 
 
-    /**
-    * @paramConverter("onglet", options={"mapping": {"user_id": "id"}})
-    */
     #[Route('/', name: 'app_index')]
     public function index(
                         EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, 
@@ -57,8 +55,82 @@ class IndexController extends AbstractController
                         Security $security,
                         request $request, SessionController $sessionController, 
                         OngletRepository $ongletRepository
-                        ): Response
-    {
+                    ): Response
+    {        
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        //session_start()
+        //$session = $request->getSession();
+
+        // Vérifier si l'utilisateur est authentifié
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+
+            return $this->redirectToRoute('app_index_redirect');
+
+        }
+        // Retourner une réponse par défaut si l'utilisateur n'est pas connecté
+        return $this->render('index/index.html.twig', [
+            'ajout' => false,
+            'error' => $error,
+            'last_username' => $lastUsername,
+        ]);
+
+
+
+
+
+    }
+
+#[Route('/redirection', name: 'app_index_redirect')]
+    public function RedirectionAction(
+                        EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, 
+                        AuthorizationCheckerInterface $authorizationChecker,  
+                        AuthenticationUtils $authenticationUtils,
+                        Security $security,
+                        request $request, SessionController $sessionController, 
+                        OngletRepository $ongletRepository
+                    ): Response
+    {        
+        //$error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        //$lastUsername = $authenticationUtils->getLastUsername();
+
+
+        // Vérifier si l'utilisateur est authentifié
+        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            // Utilisez l'objet User selon vos besoins
+            $id = $user->getId();
+
+
+
+            //$session->set('id', $user->getId());
+            $sessionId = $sessionController->getSessionid();
+
+            return $this->redirectToRoute('app_index_co', ['id' => $id]);
+
+        }
+        
+        }
+
+    /**
+    * @paramConverter("onglet", options={"mapping": {"user_id": "id"}})
+    */
+    #[Route('/{id}', name: 'app_index_co')]
+    public function Connected(
+                        EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, 
+                        AuthorizationCheckerInterface $authorizationChecker,  
+                        AuthenticationUtils $authenticationUtils,
+                        Security $security,
+                        request $request, SessionController $sessionController, 
+                        OngletRepository $ongletRepository
+                    ): Response
+    {        
+
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
@@ -71,35 +143,13 @@ class IndexController extends AbstractController
             // Récupérer l'utilisateur connecté
             $user = $this->getUser();
 
-            //$onglet = $ongletRepository->findOneBy(['user' => $user->getOngletId()]);
-            /*
-            if (!$onglet) {
-                // L'objet Onglet n'existe pas pour cet utilisateur, nous devons le créer
-                $onglet = new Onglet();
-                $onglet->setUser($user);
-
-                // Effectuez d'autres opérations d'initialisation si nécessaire
-
-                // Enregistrez l'objet Onglet dans la base de données
-                $entityManager->persist($onglet);
-                $entityManager->flush();
-            }
-            */
             // Utilisez l'objet User selon vos besoins
             $id = $user->getId();
-            
+
             $onglet = new Onglet();
-            $form = $this->createForm(OngletType::class, $onglet);
-            $form->handleRequest($request);
-
-            /*
-            if ($form->isSubmitted() && $form->isValid()) { 
-
-                $onglet->setUser($user);
-
-                $ongletRepository->save($onglet, true);
-                return $this->redirectToRoute('app_index', [], Response::HTTP_SEE_OTHER);
-            }*/
+            $onglet->setUser($user);
+            $user->addOnglet($onglet);
+            $userId = $onglet->getUser();
 
 
 
@@ -113,16 +163,15 @@ class IndexController extends AbstractController
                 'error' => $error,
                 'ajout' => true,
                 'sessionId' => $sessionId,
-                //'form' => $form->createView(),
+                'user' => $user,
+                'id' => $id,
+                'userId' => $userId,
                 'onglets' => $ongletRepository->findAll(),
             ]);
         }
-        // Retourner une réponse par défaut si l'utilisateur n'est pas connecté
-        return $this->render('index/index.html.twig', [
-            'ajout' => false,
-            'error' => $error,
-            'last_username' => $lastUsername,
-        ]);
+
+
+        return $this->redirectToRoute('app_index');
 
 
     }

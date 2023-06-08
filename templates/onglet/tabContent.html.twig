@@ -1,0 +1,49 @@
+
+	<div class="align">				
+			{% for onglet in onglets %}
+				{% if onglet.user == app.user %}
+					<div class="column-flex center align" id="parentCard">
+						<div class="m-3 bg-dark text-white cardC" style="">
+							<div class="boxImage">
+								{% if onglet.imgName == null %}
+									<img src="img/Aucune image.png" alt="" style="width: 100%;border-bottom:3px solid white;">
+									<p>Aucune image</p>
+								{% else %}
+									<img class="card-img-top img-fluid imgCard image-file" style="" 
+											src="{{ vich_uploader_asset(onglet, 'imageFile') }}" 
+											alt="Card image cap">
+
+								{% endif %}
+							</div>
+							<div class="card-body column-flex">
+								<h5 class="card-title titleCard">{{ onglet.title}}</h5>
+								<!-- Modal pour la description -->
+								<!-- button modal -->
+								<button id="modal{{ onglet.id }}" data-bs-id="{{ onglet.id }}" class="buttonDesc btn btn-secondary">
+									Afficher la description					
+								</button> 
+								<!--<a href="#" class="btn btn-primary">Allez au projet</a>-->
+								<!--  end -->
+								<div class="modalDesc close{{ onglet.id }}" id="modalDesc{{ onglet.id }}">
+									<div style="display: flex;justify-content: flex-end;">
+										<button class="closeModal" id="closeModal" data-bs-onglet-id="{{ onglet.id }}">X</button>
+									</div>
+
+									<p class="card-text desCard">{{ onglet.description}}</p>
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="align">
+						{% if loop.index is divisible by(5) %}
+							<div class=""> <!-- Nouvelle ligne -->
+						{% endif %}
+					</div>	
+				{% endif %}
+			{% endfor %}
+	</div>	
+	
+
+	

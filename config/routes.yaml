@@ -1,3 +1,6 @@
+
+
+
 controllers:
     resource:
         path: ../src/Controller/
@@ -7,4 +10,3 @@ controllers:
 img_edit:
     path: /img/edit.png
     controller: App\Controller\IndexController::imgEdit
-

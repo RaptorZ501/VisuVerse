@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+//use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\Entity]
 #[UniqueEntity(fields: ['pseudo'], message: 'Un compte existe déjà avec ce pseudo')]
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -72,6 +73,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function prePersist(): void
     {
         $this->CreatedAt = new \DateTimeImmutable();
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function createOngletForUser()
+    {
+        $onglet = new Onglet();
+        $onglet->setUser($this);
+        $this->addOnglet($onglet);
     }
 
     #[Assert\IsTrue(message: 'The password cannot match your first name')]
@@ -198,7 +209,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->ongletId;
     }
 
-    public function addOngletId(onglet $ongletId): self
+    public function addOnglet(onglet $ongletId): self
     {
         if (!$this->ongletId->contains($ongletId)) {
             $this->ongletId->add($ongletId);
