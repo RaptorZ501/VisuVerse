@@ -51,4 +51,20 @@ class SessionController extends AbstractController
             return $session->get('id');
         }   
     }
+    public function getSessionUser(){    
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        // Vérifier si l'utilisateur est authentifié
+        if ($this->security->isGranted('IS_AUTHENTICATED_FULLY')) {        
+            //session_start()
+            $session = $request->getSession();
+            ;
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            // Utilisez l'objet User selon vos besoins
+
+            $session->set('user', $user->getPseudo());
+            return $session->get('user');
+        }   
+    }
 }

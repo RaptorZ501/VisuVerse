@@ -25,8 +25,12 @@ use Symfony\Contracts\Service\ServiceSubscriberTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-
-
+use App\Form\RegistrationFormType;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use App\Security\UsersAuthenticator;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 $session = new Session();
@@ -53,16 +57,17 @@ class IndexController extends AbstractController
                         AuthorizationCheckerInterface $authorizationChecker,  
                         AuthenticationUtils $authenticationUtils,
                         Security $security,
-                        request $request, SessionController $sessionController, 
-                        OngletRepository $ongletRepository
+                        request $request,
+                        OngletRepository $ongletRepository,
+                        UserPasswordHasherInterface $userPasswordHasher, 
+                        UserAuthenticatorInterface $userAuthenticator, 
+                        UsersAuthenticator $authenticator
                     ): Response
     {        
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        //session_start()
-        //$session = $request->getSession();
 
         // Vérifier si l'utilisateur est authentifié
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -70,11 +75,41 @@ class IndexController extends AbstractController
             return $this->redirectToRoute('app_index_redirect');
 
         }
+
+        $user = new User();            
+        // Set the created at date
+        $user->setCreatedAt(new \DateTimeImmutable());
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+
+
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // do anything else you need here, like send an email
+
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+        }
+
         // Retourner une réponse par défaut si l'utilisateur n'est pas connecté
         return $this->render('index/index.html.twig', [
             'ajout' => false,
             'error' => $error,
             'last_username' => $lastUsername,
+            'form' => $form->createView(),
         ]);
 
 
@@ -84,38 +119,25 @@ class IndexController extends AbstractController
     }
 
 #[Route('/redirection', name: 'app_index_redirect')]
-    public function RedirectionAction(
-                        EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage, 
-                        AuthorizationCheckerInterface $authorizationChecker,  
-                        AuthenticationUtils $authenticationUtils,
-                        Security $security,
-                        request $request, SessionController $sessionController, 
-                        OngletRepository $ongletRepository
-                    ): Response
-    {        
-        //$error = $authenticationUtils->getLastAuthenticationError();
-        // last username entered by the user
-        //$lastUsername = $authenticationUtils->getLastUsername();
+public function RedirectionAction(
+                    EntityManagerInterface $entityManager, 
+                    AuthorizationCheckerInterface $authorizationChecker,  
+                    AuthenticationUtils $authenticationUtils,
+                    Security $security,
+                    request $request
+                ): Response
+{        
+    // Vérifier si l'utilisateur est authentifié
+    if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+        // Utilisez l'objet User selon vos besoins
+        $id = $user->getId();
+        return $this->redirectToRoute('app_index_co', ['id' => $id]);
+    }
+    
+}
 
-
-        // Vérifier si l'utilisateur est authentifié
-        if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
-            // Récupérer l'utilisateur connecté
-            $user = $this->getUser();
-
-            // Utilisez l'objet User selon vos besoins
-            $id = $user->getId();
-
-
-
-            //$session->set('id', $user->getId());
-            $sessionId = $sessionController->getSessionid();
-
-            return $this->redirectToRoute('app_index_co', ['id' => $id]);
-
-        }
-        
-        }
 
     /**
     * @paramConverter("onglet", options={"mapping": {"user_id": "id"}})
@@ -135,8 +157,6 @@ class IndexController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        //session_start()
-        //$session = $request->getSession();
 
         // Vérifier si l'utilisateur est authentifié
         if ($security->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -155,6 +175,7 @@ class IndexController extends AbstractController
 
             //$session->set('id', $user->getId());
             $sessionId = $sessionController->getSessionid();
+            $sessionUser = $sessionController->getSessionUser();
 
 
 
@@ -163,18 +184,20 @@ class IndexController extends AbstractController
                 'error' => $error,
                 'ajout' => true,
                 'sessionId' => $sessionId,
-                'user' => $user,
+                'user' => $sessionUser,
                 'id' => $id,
                 'userId' => $userId,
                 'onglets' => $ongletRepository->findAll(),
             ]);
         }
+        return $this->render('index/index.html.twig', [
+            'last_username' => $lastUsername, 
+            'error' => $error,
+        ]);
 
-
-        return $this->redirectToRoute('app_index');
-
-
+        //return $this->redirectToRoute('app_index');
     }
+
 
     #[Route('/img/edit.png', name: 'app_img_edit')]
     public function imgEdit(): Response{

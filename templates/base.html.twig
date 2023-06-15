@@ -7,10 +7,11 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('build/css/reset.css') }}">
-            <link rel="stylesheet" href= "{{ asset('build/css/general.css?v=1.6') }}">
-            <link rel="stylesheet" href= "{{ asset('build/css/form.css?v=1.0') }}">
-            <link rel="stylesheet" href= "{{ asset('build/css/tab.css?v=1.5') }}">
+            <link rel="stylesheet" href= "{{ asset('build/css/general.css?v=1.0') }}">
+            <link rel="stylesheet" href= "{{ asset('build/css/form.css?v=1.1') }}">
+            <link rel="stylesheet" href= "{{ asset('build/css/tab.css?v=1.0') }}">
             <link rel="stylesheet" href= "{{ asset('build/css/admin.css?v=1.0') }}">
+            <link rel="stylesheet" href= "{{ asset('build/css/Page.css?v=1.5') }}">
             <link rel="stylesheet" href="{{ asset('build/bootstrap/css/bootstrap.css') }}">
         {% endblock %}
 
@@ -23,8 +24,10 @@
 
         {% block javascripts %}
             <script src="{{ asset('build/bootstrap/js/bootstrap.js') }}"></script>
+            <script src="lazysizes.min.js" async=""></script>
             <script src="{{ asset('build/js/standard.js?v=1.3') }}"></script>
-            <script src="{{ asset('build/js/affichages.js?v=1.5') }}"></script>
+            <script src="{{ asset('build/js/affichages.js?v=1.4') }}"></script>
+            <script src="{{ asset('build/js/page.js?v=1.0') }}"></script>
         {% endblock %}
     </body>
 </html>

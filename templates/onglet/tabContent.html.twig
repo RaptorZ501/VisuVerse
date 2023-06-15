@@ -1,31 +1,46 @@
 
 	<div class="align">				
 			{% for onglet in onglets %}
+				{% for flashMessage in app.flashes('redirect') %}
+				    <div class="alert alert-success">{{ flashMessage }}</div>
+				{% endfor %}
+				{% for flashMessage in app.flashes('success') %}
+    				<div class="alert alert-success">{{ flashMessage }}</div>
+				{% endfor %}
 				{% if onglet.user == app.user %}
 					<div class="column-flex center align" id="parentCard">
-						<div class="m-3 bg-dark text-white cardC" style="">
+						<div class="m-3 text-white cardC" style="">
 							<div class="boxImage">
 								{% if onglet.imgName == null %}
 									<img src="img/Aucune image.png" alt="" style="width: 100%;border-bottom:3px solid white;">
 									<p>Aucune image</p>
 								{% else %}
-									<img class="card-img-top img-fluid imgCard image-file" style="" 
+									<img class="card-img-top img-fluid imgCard image-file lazyload" style="" 
 											src="{{ vich_uploader_asset(onglet, 'imageFile') }}" 
-											alt="Card image cap">
+											data-src="{{ vich_uploader_asset(onglet, 'imageFile') }}"
+											data-onglet-id="{{ onglet.id }}" alt="Card image cap">
 
 								{% endif %}
+							<p class="creator"><strong style="color: black;">Createur :</strong> {{ user }}</p>
 							</div>
-							<div class="card-body column-flex">
+							<div class="card-body column-flex blockCardBody">
 								<h5 class="card-title titleCard">{{ onglet.title}}</h5>
 								<!-- Modal pour la description -->
 								<!-- button modal -->
-								<button id="modal{{ onglet.id }}" data-bs-id="{{ onglet.id }}" class="buttonDesc btn btn-secondary">
-									Afficher la description					
-								</button> 
-								<!--<a href="#" class="btn btn-primary">Allez au projet</a>-->
+									<p>{{ onglet.id }}</p>
+									<button id="modal{{ onglet.id }}" data-bs-id="{{ onglet.id }}" class="buttonDesc btn btn-dark">
+										Afficher la description					
+									</button> 
+									<a href="{{ path('app_project_index', {'user': id } )}}" class="btn btn-primary buttonPage">Allez au projet</a>
+
+								<div class="row-flex center betweenTop">
+									<a href="{{ path('app_onglet_edit', { 'id': onglet.id })}}" class="btn btn-warning">Modifier</a>
+									{{ include('onglet/_delete_form.html.twig') }}
+								</div>
 								<!--  end -->
 								<div class="modalDesc close{{ onglet.id }}" id="modalDesc{{ onglet.id }}">
 									<div style="display: flex;justify-content: flex-end;">
+										<p class="center" style="margin: 0 auto"><strong>{{ onglet.title }}</strong></p>
 										<button class="closeModal" id="closeModal" data-bs-onglet-id="{{ onglet.id }}">X</button>
 									</div>
 
@@ -44,6 +59,43 @@
 				{% endif %}
 			{% endfor %}
 	</div>	
-	
+
+<script>
+	document.body.style.visibility = 'hidden';
+	function loadPage() {
+	  // Afficher le contenu de la page
+	  document.body.style.visibility = 'visible';
+	}
+
+	// Fonction pour attendre le chargement de toutes les images
+	function waitForImagesToLoad() {
+	  var images = document.querySelectorAll('img');
+	  var totalImages = images.length;
+	  var loadedImages = 0;
+
+	  for (var i = 0; i < totalImages; i++) {
+	    var image = images[i];
+	    if (image.complete) {
+	      loadedImages++;
+	    } else {
+	      image.addEventListener('load', function() {
+	        loadedImages++;
+	        if (loadedImages === totalImages) {
+	          loadPage();
+	        }
+	      });
+	    }
+	  }
+
+	  // Si toutes les images sont déjà chargées, appeler loadPage directement
+	  if (loadedImages === totalImages) {
+	    loadPage();
+	  }
+	}
+
+	// Appeler la fonction waitForImagesToLoad lors du chargement de la page
+	window.addEventListener('load', waitForImagesToLoad);
+</script>
+
 
 	

@@ -1,6 +1,6 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Connexion{% endblock %}
+
+
 
 {% block body %}
 {% if error %}
@@ -21,8 +21,12 @@
                     <input type="hidden" name="id" value="{{ app.user.id }}"/>
                 {% endif %}
 
-            <input type="hidden" name="_target_path" value="{{ path('app_index')}}"/>
-            <button type="submit" class="btn btn-success mt-5" id="Co">Connexion</button>
+            <div class="column-flex center">
+                <input type="hidden" name="_target_path" value="{{ path('app_index')}}"/>
+                <button type="submit" class="btn btn-success mt-5" id="Co">Connexion</button>
+
+                <a href="{{ path('app_index') }}" class="btn btn-primary mt-3">revenir en arrière</a>
+            </div>
         </div>
     </div>
 

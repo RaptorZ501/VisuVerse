@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CssModifer index{% endblock %}
+
+{% block body %}
+    <h1>CssModifer index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>BgHeader</th>
+                <th>ColorHeader</th>
+                <th>BgBase</th>
+                <th>BgBox1</th>
+                <th>BgBox2</th>
+                <th>BgBox3</th>
+                <th>ColorBase</th>
+                <th>ColorBox1</th>
+                <th>ColorBox2</th>
+                <th>ColorBox3</th>
+                <th>BgNav</th>
+                <th>ColorNav</th>
+                <th>TitleHeader</th>
+                <th>TitleBase</th>
+                <th>DesBox1</th>
+                <th>DesBox2</th>
+                <th>DesBox3</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for css_modifer in css_modifers %}
+            <tr>
+                <td>{{ css_modifer.id }}</td>
+                <td>{{ css_modifer.bgHeader }}</td>
+                <td>{{ css_modifer.colorHeader }}</td>
+                <td>{{ css_modifer.bgBase }}</td>
+                <td>{{ css_modifer.bgBox1 }}</td>
+                <td>{{ css_modifer.bgBox2 }}</td>
+                <td>{{ css_modifer.bgBox3 }}</td>
+                <td>{{ css_modifer.colorBase }}</td>
+                <td>{{ css_modifer.colorBox1 }}</td>
+                <td>{{ css_modifer.colorBox2 }}</td>
+                <td>{{ css_modifer.colorBox3 }}</td>
+                <td>{{ css_modifer.bgNav }}</td>
+                <td>{{ css_modifer.colorNav }}</td>
+                <td>{{ css_modifer.titleHeader }}</td>
+                <td>{{ css_modifer.titleBase }}</td>
+                <td>{{ css_modifer.desBox1 }}</td>
+                <td>{{ css_modifer.desBox2 }}</td>
+                <td>{{ css_modifer.desBox3 }}</td>
+                <td>
+                    <a href="{{ path('app_css_modifer_show', {'id': css_modifer.id}) }}">show</a>
+                    <a href="{{ path('app_css_modifer_edit', {'id': css_modifer.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="19">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_css_modifer_new') }}">Create new</a>
+{% endblock %}

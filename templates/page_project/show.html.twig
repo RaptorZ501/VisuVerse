@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PageProject{% endblock %}
+
+{% block body %}
+    <h1>PageProject</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ page_project.id }}</td>
+            </tr>
+            <tr>
+                <th>TitleHeader</th>
+                <td>{{ page_project.titleHeader }}</td>
+            </tr>
+            <tr>
+                <th>TitleBase</th>
+                <td>{{ page_project.titleBase }}</td>
+            </tr>
+            <tr>
+                <th>DesBox1</th>
+                <td>{{ page_project.desBox1 }}</td>
+            </tr>
+            <tr>
+                <th>Desbox2</th>
+                <td>{{ page_project.desbox2 }}</td>
+            </tr>
+            <tr>
+                <th>DesBox3</th>
+                <td>{{ page_project.desBox3 }}</td>
+            </tr>
+            <tr>
+                <th>ImgBox1</th>
+                <td>{{ page_project.imgBox1 }}</td>
+            </tr>
+            <tr>
+                <th>ImgBox2</th>
+                <td>{{ page_project.imgBox2 }}</td>
+            </tr>
+            <tr>
+                <th>ImgBox3</th>
+                <td>{{ page_project.imgBox3 }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_page_project_index') }}">back to list</a>
+
+    <a href="{{ path('app_page_project_edit', {'id': page_project.id}) }}">edit</a>
+
+    {{ include('page_project/_delete_form.html.twig') }}
+{% endblock %}

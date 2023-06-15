@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CssModifer{% endblock %}
+
+{% block body %}
+    <h1>Edit CssModifer</h1>
+
+    {{ include('css_modifer/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_css_modifer_index') }}">back to list</a>
+
+    {{ include('css_modifer/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau Projet{% endblock %}
+
+{% block body %}
+    <div class="center column-flex boxBase">
+        {{ include('page_project/_form.html.twig') }}
+
+        <a href="{{ path('app_project_index',{'user': userId}) }}" class="btn btn-primary">Retour en arrière</a>
+    </div>
+{% endblock %}

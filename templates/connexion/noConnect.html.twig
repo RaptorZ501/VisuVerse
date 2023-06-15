@@ -1,9 +1,8 @@
 
 		
-				
 				<div class="noConnected" id="noConnected">
 					<nav class="betweenTop column" id="noConnectedNav">
-						<a href="{{ path('app_register') }}" class="navNoConnected">
+						<a id="inscriptionBtn" class="navNoConnected">
 							Inscription
 						</a>
 						<!-- fonctionnalité a ajouter
@@ -28,7 +27,11 @@
 					</section>
 				</div>
 
-				<div id="connexionFormContainer" class="center blockLogin">				
+				<div id="connexFormContainer" class="center blockLogin">				
 					{{ include('security/login.html.twig') }}
+				</div>
+
+				<div id="inscriptionFormContainer" class="center blockRegister">
+					{{ include('registration/register.html.twig') }}
 				</div>
 

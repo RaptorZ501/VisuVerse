@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Project index{% endblock %}
+
+{% block body %}
+    <div class="center" style="margin-top:20%">
+        <a href="{{ path('app_project_new', {'user': userId}) }}" class="btn btn-success">Crée une nouvelle page</a>
+    </div>
+{% endblock %}

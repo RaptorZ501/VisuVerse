@@ -36,6 +36,9 @@ class Onglet
     #[ORM\ManyToOne(inversedBy: 'ongletId')]
     private ?User $user = null;
 
+    #[ORM\OneToOne(mappedBy: 'ongletId', cascade: ['persist', 'remove'])]
+    private ?PageProject $pageProject = null;
+
 
     public function getId(): ?int
     {
@@ -111,6 +114,28 @@ class Onglet
     public function getImgName(): ?string
     {
         return $this->imgName;
+    }
+
+    public function getPageProject(): ?PageProject
+    {
+        return $this->pageProject;
+    }
+
+    public function setPageProject(?PageProject $pageProject): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($pageProject === null && $this->pageProject !== null) {
+            $this->pageProject->setOngletId(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($pageProject !== null && $pageProject->getOngletId() !== $this) {
+            $pageProject->setOngletId($this);
+        }
+
+        $this->pageProject = $pageProject;
+
+        return $this;
     }
 
 }

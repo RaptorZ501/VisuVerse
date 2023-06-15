@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-//use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping\ArrayCollection;
+use Doctrine\Common\Collections\ArrayCollection;
+//use Doctrine\ORM\Mapping\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
@@ -62,9 +62,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $CreatedAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: CssModifer::class)]
+    private Collection $cssModiferId;
+
+    #[ORM\OneToMany(mappedBy: 'userId', targetEntity: PageProject::class)]
+    private Collection $pageProjects;
+
+    /**
+    * @ORM\Column(type="string", length=255, nullable=true)
+    */
+    private $imagePath;
+
     public function __construct()
     {
         $this->ongletId = new ArrayCollection();
+        $this->cssModiferId = new ArrayCollection();
+        $this->pageProjects = new ArrayCollection();
     }
 
     /**
@@ -252,6 +265,76 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->CreatedAt = $CreatedAt;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, CssModifer>
+     */
+    public function getCssModiferId(): Collection
+    {
+        return $this->cssModiferId;
+    }
+
+    public function addCssModiferId(CssModifer $cssModiferId): self
+    {
+        if (!$this->cssModiferId->contains($cssModiferId)) {
+            $this->cssModiferId->add($cssModiferId);
+            $cssModiferId->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCssModiferId(CssModifer $cssModiferId): self
+    {
+        if ($this->cssModiferId->removeElement($cssModiferId)) {
+            // set the owning side to null (unless already changed)
+            if ($cssModiferId->getUserId() === $this) {
+                $cssModiferId->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PageProject>
+     */
+    public function getPageProjects(): Collection
+    {
+        return $this->pageProjects;
+    }
+
+    public function addPageProject(PageProject $pageProject): self
+    {
+        if (!$this->pageProjects->contains($pageProject)) {
+            $this->pageProjects->add($pageProject);
+            $pageProject->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageProject(PageProject $pageProject): self
+    {
+        if ($this->pageProjects->removeElement($pageProject)) {
+            // set the owning side to null (unless already changed)
+            if ($pageProject->getUserId() === $this) {
+                $pageProject->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getImagePath(): ?string
+    {
+        return $this->imagePath;
+    }
+
+    public function setImagePath($path)
+    {
+    $this->imagePath = $path;
     }
 
 

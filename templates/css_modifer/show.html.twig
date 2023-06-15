@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CssModifer{% endblock %}
+
+{% block body %}
+    <h1>CssModifer</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ css_modifer.id }}</td>
+            </tr>
+            <tr>
+                <th>BgHeader</th>
+                <td>{{ css_modifer.bgHeader }}</td>
+            </tr>
+            <tr>
+                <th>ColorHeader</th>
+                <td>{{ css_modifer.colorHeader }}</td>
+            </tr>
+            <tr>
+                <th>BgBase</th>
+                <td>{{ css_modifer.bgBase }}</td>
+            </tr>
+            <tr>
+                <th>BgBox1</th>
+                <td>{{ css_modifer.bgBox1 }}</td>
+            </tr>
+            <tr>
+                <th>BgBox2</th>
+                <td>{{ css_modifer.bgBox2 }}</td>
+            </tr>
+            <tr>
+                <th>BgBox3</th>
+                <td>{{ css_modifer.bgBox3 }}</td>
+            </tr>
+            <tr>
+                <th>ColorBase</th>
+                <td>{{ css_modifer.colorBase }}</td>
+            </tr>
+            <tr>
+                <th>ColorBox1</th>
+                <td>{{ css_modifer.colorBox1 }}</td>
+            </tr>
+            <tr>
+                <th>ColorBox2</th>
+                <td>{{ css_modifer.colorBox2 }}</td>
+            </tr>
+            <tr>
+                <th>ColorBox3</th>
+                <td>{{ css_modifer.colorBox3 }}</td>
+            </tr>
+            <tr>
+                <th>BgNav</th>
+                <td>{{ css_modifer.bgNav }}</td>
+            </tr>
+            <tr>
+                <th>ColorNav</th>
+                <td>{{ css_modifer.colorNav }}</td>
+            </tr>
+            <tr>
+                <th>TitleHeader</th>
+                <td>{{ css_modifer.titleHeader }}</td>
+            </tr>
+            <tr>
+                <th>TitleBase</th>
+                <td>{{ css_modifer.titleBase }}</td>
+            </tr>
+            <tr>
+                <th>DesBox1</th>
+                <td>{{ css_modifer.desBox1 }}</td>
+            </tr>
+            <tr>
+                <th>DesBox2</th>
+                <td>{{ css_modifer.desBox2 }}</td>
+            </tr>
+            <tr>
+                <th>DesBox3</th>
+                <td>{{ css_modifer.desBox3 }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_css_modifer_index') }}">back to list</a>
+
+    <a href="{{ path('app_css_modifer_edit', {'id': css_modifer.id}) }}">edit</a>
+
+    {{ include('css_modifer/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,100 @@
+{{ form_start(form) }}
+    <header style="color:{{ color }}" class="center column-flex headerPage">
+
+        <h1>Nom de votre Portfolio pour ce projet</h1>
+        <div class="formHeader" id="formHeader" hidden>  
+            {{ form_label(form.titleHeader, "Nom du projet") }}
+            {{ form_widget(form.titleHeader) }}
+        </div>
+    
+    </header>
+
+    <main style="color:white" class="center column-flex">
+        <!-- navigation -->
+        <nav class="navFixe" id="menu">
+            <img src="{{ path('img_menu')}}" alt="" style="width: 60px; height: 60px">
+        </nav>
+        <nav class="navFixeDerouler column-flex" id="menuDerouler" style="visibility:hidden" >
+            <div class="row-flex center" style="width: 100%; height: 100%;">
+                <div class="column-flex" style="width: 100%; height: 100%;"> 
+                    <a href="{{ path('app_index')}}" class="lienPage">Acceuil</a>
+                    <a href="{{ path('app_onglet_index')}}" class="lienPage">Tous mes projet</a>
+                    <a href="" class="lienPage">Contacter le createur</a>  
+                </div>
+                <p id="hiddenNav" class="hiddenNav">></p>
+            </div>    
+        </nav>
+         <!-- Title base -->
+        <h2>Titre de votre projet</h2>
+        <div class="formBase" id="formBase" hidden>  
+            {{ form_label(form.titleBase, "Nom du projet") }}
+            {{ form_widget(form.titleBase) }}
+        </div>
+
+        <!-- box1 -->
+        <div class="flexStart right betweenCenter" style="width: 80vw;">
+            <div class="box1 betweenCenter">
+                <img src="#" alt="" class="imgSize">
+                <p class="desPage">Description</p>
+                <div hidden>
+                    <div>
+                        {{ form_label(form.imgBox1, "image") }}
+                        {{ form_widget(form.imgBox1) }}
+                    </div>
+                    <div>  
+                        {{ form_label(form.desBox1, "Description") }}
+                        {{ form_widget(form.desBox1) }}
+                    </div>
+                </div>
+            </div>
+            <div class="boxProfile betweenCenter" style="margin-left: 10px">
+                <img src="#" alt="" class="imgSizeProfile">
+            </div>
+        </div>
+
+
+        <!-- box2 -->
+        <div class="flexEnd left">
+            <div class="box2 center betweenCenter">
+                <img src="#" alt="" class="imgSize">
+                <p class="desPage">Description</p>
+                <div hidden>
+                    <div>  
+                        {{ form_label(form.desBox2, "Description") }}
+                        {{ form_widget(form.desBox2) }}5
+                    </div>
+                    <div>
+                        {{ form_label(form.imgBox2, "image") }}
+                        {{ form_widget(form.imgBox2) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- box3 -->
+        <div class="flexStart right">
+            <div class="box3 center betweenCenter">
+                <img src="img/Aucune image.png" alt="" class="imgSize">
+                <p class="desPage">Description</p>
+                <div hidden>
+                    <div>  
+                        {{ form_label(form.desBox3, "Description") }}
+                        {{ form_widget(form.desBox3) }}
+                    </div>
+                    <div>
+                        {{ form_label(form.imgBox3, "image") }}
+                        {{ form_widget(form.imgBox3) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <button class="btn btn-success m-4">{{ button_label|default('Valider') }}</button>
+    </main>
+
+
+
+{{ form_end(form) }}
+
+

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New CssModifer{% endblock %}
+
+{% block body %}
+    <h1>Create new CssModifer</h1>
+
+    {{ include('css_modifer/_form.html.twig') }}
+
+    <a href="{{ path('app_css_modifer_index') }}">back to list</a>
+{% endblock %}
